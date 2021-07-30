@@ -1,9 +1,9 @@
 package me.farhan.managers;
 
+import me.farhan.process.ActiveProcess;
 import me.farhan.process.Process;
 
 import java.util.Queue;
-import java.util.concurrent.locks.Lock;
 
 abstract class QueueBasedTaskManager extends AbstractTaskManager
 {
@@ -22,15 +22,18 @@ abstract class QueueBasedTaskManager extends AbstractTaskManager
     @Override
     public void killAll()
     {
-        Lock writeLock = getWriteLock();
-        try {
-            writeLock.lock();
-            while (!activeProcesses.isEmpty()) {
-                Process polledProcess = activeProcesses.poll();
-                polledProcess.kill();
-            }
-        } finally {
-            writeLock.unlock();
+        while (!activeProcesses.isEmpty()) {
+            Process polledProcess = activeProcesses.poll();
+            polledProcess.kill();
         }
+    }
+
+    long addAsActiveProcess(Queue<Process> activeProcesses, Process process)
+    {
+        ActiveProcess activeProcess = new ActiveProcess( this.getANewProcessId()
+                                                        , process.getPriority());
+        activeProcesses.offer(activeProcess);
+        System.out.println("Process added with PID: " + activeProcess.getPid()+" and Priority: "+ activeProcess.getPriority());
+        return activeProcess.getPid();
     }
 }
