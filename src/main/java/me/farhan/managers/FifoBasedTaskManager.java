@@ -21,7 +21,6 @@ class FifoBasedTaskManager extends QueueBasedTaskManager
                     "Killing the process with PID: " + polledProcess.getPid());
             polledProcess.kill();
         }
-        return addAsActiveProcess(activeProcesses, process);
+        return addAsActiveProcess(process);
     }
-
 }

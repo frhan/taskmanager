@@ -35,6 +35,6 @@ class PriorityBasedTaskManager extends QueueBasedTaskManager {
             lowestPriorityProcess.kill();
             activeProcesses.remove(lowestPriorityProcess);
         }
-        return addAsActiveProcess(activeProcesses, process);
+        return addAsActiveProcess(process);
     }
 }

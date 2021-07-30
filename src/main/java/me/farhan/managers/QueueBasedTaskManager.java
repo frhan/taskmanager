@@ -28,7 +28,7 @@ abstract class QueueBasedTaskManager extends AbstractTaskManager
         }
     }
 
-    long addAsActiveProcess(Queue<Process> activeProcesses, Process process)
+    long addAsActiveProcess(Process process)
     {
         ActiveProcess activeProcess = new ActiveProcess( this.getANewProcessId()
                                                         , process.getPriority());
